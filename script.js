@@ -20,11 +20,11 @@ async function fetchData(city) {
         }
 
         const dataCity = await responceCity.json()
+
         if (dataCity.length === 0) {
             throw new Error('місто не знайдене');
 
         }
-        console.log(dataCity[0])
 
         const lat = dataCity[0].lat
         const lon = dataCity[0].lon
