@@ -1,35 +1,70 @@
 const apiKey = '8887513993e5c2f18ca3f5bbf3aff560'
-const lat = 50.4500336
-const lon = 30.5241361
 const lang = 'ua'
-const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}&lang=${lang}`
-
 const city = 'Kyiv'
-const urlCity = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`
 
-const cityName = document.getElementById('cityName')
+const btnCity = document.getElementById('btnForm')
+const cityHeader = document.getElementById('cityName')
 const temp = document.getElementById('temp')
+const tempFeels = document.getElementById('tempFeels')
+const weather = document.getElementById('weather')
+const loadingIcon = document.getElementById('loadingIcon')
+const prevText = document.getElementById('prevText')
 
-function fetchDataWeather() {
-    fetch(url)
-    .then(responce => responce.json())
-    .then(data => {
-        cityName.innerHTML = data.name
-        temp.innerHTML = Math.round(data.main.temp)
-    })
+async function fetchData(city) {
+    try {
+        const urlCity = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`
+        const responceCity = await fetch(urlCity)
+
+        if (!responceCity.ok) {
+            throw new Error('API з містами. ' + responceCity.status)
+        }
+
+        const dataCity = await responceCity.json()
+        if (dataCity.length === 0) {
+            throw new Error('місто не знайдене');
+
+        }
+        console.log(dataCity[0])
+
+        const lat = dataCity[0].lat
+        const lon = dataCity[0].lon
+
+        const url =
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}&lang=${lang}`
+        const responce = await fetch(url)
+
+        if (!responce.ok) {
+            throw new Error('API погоди. ' + responce.status)
+        }
+
+        const data = await responce.json()
+
+        loadingIcon.style.display = 'none'
+
+        cityHeader.innerHTML = '<img src="icons/location.png" class="locationImg"> ' + data.name
+        temp.textContent = Math.round(data.main.temp) + '°'
+        tempFeels.textContent = 'Відчувається як ' + Math.round(data.main.feels_like) + '°'
+
+        let weatherInfo = data.weather[0].description
+        weather.textContent = weatherInfo.replace(weatherInfo[0], weatherInfo[0].toUpperCase())
+    } catch (error) {
+        loadingIcon.style.display = 'none'
+        prevText.style.display = 'inline'
+
+        prevText.style.color = '#8f0000'
+        prevText.textContent = 'Помилка: ' + error
+        console.error('Помилка:', error)
+    }
 }
 
-// function fetchDataCity() {
-//     fetch(urlCity)
-//     .then(responce => responce.json())
-//     .then(data => {
-//         const result = [data[0].lat, data[0].lon]
-//         // return [data[0].lat, data[0].lon]
-//         console.log()
-//     })
-// }
+btnCity.addEventListener("click", () => {
+    const inputCity = document.getElementById('inputCity').value.trim()
 
-// let coords = fetchDataCity()
-// console.log(coords)
+    if (inputCity === '') {
+        return
+    }
 
-fetchDataWeather()
+    prevText.style.display = 'none'
+    loadingIcon.style.display = 'inline'
+    fetchData(inputCity)
+})

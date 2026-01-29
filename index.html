@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <title>Прогноз погоди</title>
 </head>
+
 <body>
     <div class="main-content">
-        <h2 id="cityName">Київ, Україна</h2>
-        <h1 id="temp">-5</h1>
+        <div class="form-city">
+            <input type="text" placeholder="Введіть місто (англійською)" id="inputCity" class="main-input" required>
+            <button type="submit" class="button-city" id="btnForm"><img src="icons/search.png" width="25px"
+                    alt="Шукати"></button>
+        </div>
+        <div class="main-weather">
+            <img src="icons/loading.gif" class="loading" id="loadingIcon" alt="Завантаження...">
+            <p class="prev-text" id="prevText">Потрібно ввести місто</p>
+            <h1 id="temp"></h1>
+            <p id="tempFeels"></p>
+            <p id="weather"></p>
+            <p class="city-name" id="cityName"></p>
+        </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
+
 </html>
