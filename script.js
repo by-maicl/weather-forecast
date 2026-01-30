@@ -1,4 +1,4 @@
-const apiKey = '8887513993e5c2f18ca3f5bbf3aff560'
+const apiKey = '8887513993e5c2f18ca3f5bbf3aff560' // bruh...
 const lang = 'ua'
 const city = 'Kyiv'
 
