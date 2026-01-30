@@ -86,6 +86,13 @@ body {
     font-size: 18px;
 }
 
+.weather-icon {
+    width: 150px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
 @media (max-width: 1024px) {
     .main-content {
         width: 50%;
