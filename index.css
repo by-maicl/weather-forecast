@@ -50,9 +50,38 @@ body {
     cursor: pointer;
 }
 
+.cities-list {
+    width: 100%;
+    background-color: #3b5fa6;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 15px;
+    color: #fff;
+}
+
+.cities-list__saved-header {
+    color: #ffffff79;
+}
+
+.cities-list__saved {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.cities-list__saved li {
+    border-radius: 5px;
+    padding: 5px 20px;
+}
+
+.cities-list__saved li:hover {
+    cursor: pointer;
+    background-color: #1A3263;
+    transition: 0.3s all ease;
+}
+
 .main-weather {
     position: relative;
-    margin-top: 20px;
+    margin-top: 15px;
     background-color: #3b5fa6;
     border-radius: 10px;
     padding: 15px;
@@ -91,6 +120,16 @@ body {
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.save-icon {
+    display: none;
+    position: absolute;
+    width: 20px;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+    z-index: 100;
 }
 
 @media (max-width: 1024px) {

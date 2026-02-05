@@ -16,14 +16,28 @@
             <button type="submit" class="button-city" id="btnForm"><img src="icons/search.png" width="25px"
                     alt="Шукати"></button>
         </div>
+
+        <div class="cities-list">
+            <p class="cities-list__saved-header">
+                <img src="icons/location.png" class="locationImg"> Збережені міста:
+            </p>
+            <ul class="cities-list__saved">
+                <li class="saved-city">Київ</li>
+                <li class="saved-city">Прага</li>
+            </ul>
+        </div>
+
         <div class="main-weather">
             <img src="icons/loading.gif" class="loading" id="loadingIcon" alt="Завантаження...">
+
+            <img src="icons/unsaved.png" class="save-icon" alt="Save">
             <p class="prev-text" id="prevText">Потрібно ввести місто</p>
             <h1 id="temp"></h1>
             <p id="tempFeels"></p>
             <p id="weather"></p>
             <p class="city-name" id="cityName"></p>
             <img id="weatherIcon" class="weather-icon">
+            
         </div>
     </div>
 
