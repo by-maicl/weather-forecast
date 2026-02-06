@@ -2,6 +2,8 @@ const apiKey = '8887513993e5c2f18ca3f5bbf3aff560' // bruh...
 const lang = 'ua'
 
 const btnCity = document.getElementById('btnForm')
+const mainWeatherContainer = document.querySelector('.main-weather')
+const weatherDetailsContainer = document.querySelector('.weather-details')
 const cityHeader = document.getElementById('cityName')
 const temp = document.getElementById('temp')
 const tempFeels = document.getElementById('tempFeels')
@@ -12,12 +14,13 @@ const weatherIcon = document.getElementById('weatherIcon')
 const saveIcon = document.querySelector('.save-icon')
 const listSavedCities = document.querySelector('.cities-list__saved')
 
-async function fetchData(city) {
-    temp.textContent = ''
-    tempFeels.textContent = ''
-    weather.textContent = ''
-    cityHeader.innerHTML = ''
-    weatherIcon.src = ''
+const storageKey = 'cities'
+
+const weatherDetails = document.querySelectorAll('.weather-details__info')
+
+const fetchData = async city => {
+    mainWeatherContainer.style.visibility = 'hidden'
+    weatherDetailsContainer.style.visibility = 'hidden'
 
     prevText.style.display = 'none'
     loadingIcon.style.display = 'inline'
@@ -26,16 +29,10 @@ async function fetchData(city) {
         const urlCity = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`
         const responceCity = await fetch(urlCity)
 
-        if (!responceCity.ok) {
-            throw new Error('API з містами. ' + responceCity.status)
-        }
+        if (!responceCity.ok) throw new Error('API з містами. ' + responceCity.status)
 
         const dataCity = await responceCity.json()
-
-        if (dataCity.length === 0) {
-            throw new Error('місто не знайдене');
-
-        }
+        if (dataCity.length === 0) throw new Error('місто не знайдене');
 
         const lat = dataCity[0].lat
         const lon = dataCity[0].lon
@@ -43,17 +40,12 @@ async function fetchData(city) {
         const url =
             `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}&lang=${lang}`
         const responce = await fetch(url)
-
-        if (!responce.ok) {
-            throw new Error('API погоди. ' + responce.status)
-        }
-
+        if (!responce.ok) throw new Error('API погоди. ' + responce.status)
         const data = await responce.json()
 
         loadingIcon.style.display = 'none'
-
-        saveIcon.style.display = 'inline'
-        isCitySave(city) ? saveIcon.src = 'icons/saved.png' : saveIcon.src = 'icons/unsaved.png'
+        mainWeatherContainer.style.visibility = 'unset'
+        weatherDetailsContainer.style.visibility = 'unset'
 
         cityHeader.innerHTML = '<img src="icons/location.png" class="locationImg"> ' + data.name
         temp.textContent = Math.round(data.main.temp) + '°'
@@ -62,11 +54,34 @@ async function fetchData(city) {
         let weatherInfo = data.weather[0].description
         weather.textContent = weatherInfo.replace(weatherInfo[0], weatherInfo[0].toUpperCase())
 
+        saveIcon.style.display = 'inline'
+        saveIcon.id = city
+        isCitySaved(city) ? saveIcon.src = 'icons/saved.png' : saveIcon.src = 'icons/unsaved.png'
+
         if (data.weather[0].icon.at(-1) === 'n') {
             weatherIcon.src = `icons/weather/${getIcon(data.weather[0].id)}_n.svg`
         } else {
             weatherIcon.src = `icons/weather/${getIcon(data.weather[0].id)}.svg`
         }
+
+        const sunriseTime = new Date(data.sys.sunrise * 1000)
+        const sunsetTime = new Date(data.sys.sunset * 1000)
+
+        const weatherDetailsInfo = {
+            clouds: `${data.clouds.all}%`,
+            humidity: `${data.main.humidity}%`,
+            wind: `${Math.round(data.wind.speed)} м/c`,
+            sunrise: formatSunTime(sunriseTime.toLocaleString()),
+            sunset: formatSunTime(sunsetTime.toLocaleString())
+        }
+
+        let index = 0
+        for (const [key, value] of Object.entries(weatherDetailsInfo)) {
+            weatherDetails[index].textContent = value
+            index++
+        }
+
+        console.log(data)
     } catch (error) {
         loadingIcon.style.display = 'none'
         prevText.style.display = 'inline'
@@ -76,7 +91,12 @@ async function fetchData(city) {
     }
 }
 
-function getIcon(code) {
+const formatSunTime = time => {
+    const timeSplit = time.split(', ')[1].split(':')
+    return `${timeSplit[0]}:${timeSplit[1]}`
+}
+
+const getIcon = code => {
     if (code >= 200 && code <= 232) {
         return 'Thunderstorm'
     } else if ((code >= 300 && code <= 321)
@@ -98,29 +118,36 @@ function getIcon(code) {
     }
 }
 
-const saveOrDelCity = (citySave) => {
-    const cities = JSON.parse(localStorage.getItem('cities')) || []
-    const cityIndex = cities.findIndex((citySearch) => citySearch.city === citySave)
+const saveCity = city => {
+    const cities = JSON.parse(localStorage.getItem(storageKey)) || []
+    const cityIndex = cities.findIndex((citySearch) => citySearch.city === city)
 
-    if (cityIndex === -1) {
-        cities.push({ city: citySave })
-        saveIcon.src = 'icons/saved.png'
-    } else {
-        cities.splice(cityIndex, 1)
-        saveIcon.src = 'icons/unsaved.png'
-    }
+    isCitySaved(city)
+        ? cities.splice(cityIndex, 1)
+        : cities.push({ city: city })
 
-    localStorage.setItem('cities', JSON.stringify(cities))
+    localStorage.setItem(storageKey, JSON.stringify(cities))
 }
 
-const isCitySave = (citySave) => {
-    const cities = JSON.parse(localStorage.getItem('cities')) || []
-    const cityIndex = cities.findIndex((citySearch) => citySearch.city === citySave)
+const isCitySaved = city => {
+    const cities = JSON.parse(localStorage.getItem(storageKey)) || []
+    const cityIndex = cities.findIndex((citySearch) => citySearch.city === city)
 
-    if (cityIndex === -1) {
-        return false
-    } else {
-        return true
+    return cityIndex === -1 ? false : true
+}
+
+const getSavedCities = () => {
+    const cities = JSON.parse(localStorage.getItem(storageKey)) || []
+
+    if (cities.length > 0) {
+        document.querySelector('.cities-list').style.display = 'block'
+    }
+
+    for (const city of cities.reverse()) {
+        const cityContainer = document.createElement('li')
+        cityContainer.className = 'saved-city'
+        cityContainer.textContent = city.city
+        listSavedCities.append(cityContainer)
     }
 }
 
@@ -133,29 +160,25 @@ const searchSavedCity = () => {
     }
 }
 
-const getSavedCities = () => {
-    const cities = JSON.parse(localStorage.getItem('cities')) || []
-
-    for (const city of cities) {
-        const cityLi = document.createElement('li')
-        cityLi.textContent = city.city
-        cityLi.classList.add('saved-city')
-        document.listSavedCities.appendChild(cityLi)
-    }
+const lastSavedCity = () => {
+    const cities = JSON.parse(localStorage.getItem(storageKey)) || []
+    return cities[cities.length - 1].city
 }
 
 btnCity.addEventListener("click", () => {
     const inputCity = document.getElementById('inputCity').value.trim()
 
-    if (inputCity === '') {
-        return
-    }
-
+    if (inputCity === '') return
     fetchData(inputCity)
 })
 
+saveIcon.addEventListener("click", () => {
+    const inputCity = saveIcon.id
+
+    saveCity(inputCity)
+    isCitySaved(inputCity) ? saveIcon.src = 'icons/saved.png' : saveIcon.src = 'icons/unsaved.png'
+})
+
+fetchData(lastSavedCity())
 getSavedCities()
 searchSavedCity()
-saveIcon.addEventListener("click", () => {
-    saveOrDelCity(document.getElementById('inputCity').value.trim())
-})
