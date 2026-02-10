@@ -14,4 +14,4 @@
 </ul>
 
 ## Preview
-<img src="https://i.imgur.com/YXzznDT.png" width="500px">
+<img width="500" alt="Знімок екрана 2026-02-10 162307" src="https://github.com/user-attachments/assets/48168c5d-1e2b-4bb2-bb33-6ad88b0a50fa" />
