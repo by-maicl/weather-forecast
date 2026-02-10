@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
 
 <head>
     <meta charset="UTF-8">
@@ -10,62 +10,72 @@
 </head>
 
 <body>
-    <div class="main-content">
-        <div class="form-city">
-            <input type="text" placeholder="Введіть місто" id="inputCity" class="main-input" required>
-            <button type="submit" class="button-city" id="btnForm"><img src="icons/search.png" width="25px"
-                    alt="Шукати"></button>
+
+    <header>
+        <div class="header__logo">
+            <img src="icons/favicon.png" alt="">
+            <h1>Прогноз погоди в реальному часі</h1>
         </div>
+    </header>
 
-        <div class="cities-list">
-            <p class="cities-list__saved-header">
-                <img src="icons/location.png" class="locationImg"> Збережені міста:
-            </p>
-            <ul class="cities-list__saved"></ul>
-        </div>
-
-        <img src="icons/loading.gif" class="loading" id="loadingIcon" alt="Завантаження...">
-        <p class="prev-text" id="prevText">Потрібно ввести місто</p>
-
-        <div class="main-weather">
-            <img src="icons/unsaved.png" class="save-icon" id="" alt="Save">
-            <h1 id="temp"></h1>
-            <p id="tempFeels"></p>
-            <p id="weather"></p>
-            <p class="city-name" id="cityName"></p>
-            <img id="weatherIcon" class="weather-icon">
-        </div>
-
-        <div class="weather-details">
-            <div class="details-container">
-                <img src="icons/weather_details/clouds.png" alt="Clouds" class="weather-details__img">
-                <p class="weather-details__header">Хмарність</p>
-                <p class="weather-details__info">Низький</p>
+    <main>
+        <section class="main-content">
+            <div class="form-city">
+                <input type="text" placeholder="Введіть місто" id="inputCity" class="main-input" required>
+                <button type="submit" class="button-city" id="btnForm"><img src="icons/search.png" width="25px"
+                        alt="Шукати"></button>
             </div>
-            <div class="details-container">
-                <img src="icons/weather_details/wet.png" alt="Wet" class="weather-details__img">
-                <p class="weather-details__header">Вологість</p>
-                <p class="weather-details__info">84%</p>
+
+            <div class="cities-list">
+                <p class="cities-list__saved-header">
+                    <img src="icons/location.png" class="locationImg"> Збережені міста:
+                </p>
+                <ul class="cities-list__saved"></ul>
             </div>
-            <div class="details-container">
-                <img src="icons/weather_details/wind.png" alt="Wind" class="weather-details__img">
-                <p class="weather-details__header">Вітер</p>
-                <p class="weather-details__info">16 км/год</p>
+
+            <img src="icons/loading.gif" class="loading" id="loadingIcon" alt="Завантаження...">
+            <p class="prev-text" id="prevText">Потрібно ввести місто</p>
+
+            <div class="main-weather">
+                <img src="icons/unsaved.png" class="save-icon" id="" alt="Save">
+                <h1 id="temp"></h1>
+                <p id="tempFeels"></p>
+                <p id="weather"></p>
+                <p class="city-name" id="cityName"></p>
+                <img id="weatherIcon" class="weather-icon">
             </div>
-            <div class="details-container details-container__sun">
-                <div class="">
-                    <img src="icons/weather_details/sun-up.png" alt="Sunrise" class="weather-details__img">
-                    <p class="weather-details__header">Схід сонця</p>
-                    <p class="weather-details__info">07:25</p>
+
+            <div class="weather-details">
+                <div class="details-container">
+                    <img src="icons/weather_details/clouds.png" alt="Clouds" class="weather-details__img">
+                    <p class="weather-details__header">Хмарність</p>
+                    <p class="weather-details__info">Низький</p>
                 </div>
-                <div class="">
-                    <img src="icons/weather_details/sun-down.png" alt="Sunset" class="weather-details__img">
-                    <p class="weather-details__header">Захід сонця</p>
-                    <p class="weather-details__info">16:59</p>
+                <div class="details-container">
+                    <img src="icons/weather_details/wet.png" alt="Wet" class="weather-details__img">
+                    <p class="weather-details__header">Вологість</p>
+                    <p class="weather-details__info">84%</p>
+                </div>
+                <div class="details-container">
+                    <img src="icons/weather_details/wind.png" alt="Wind" class="weather-details__img">
+                    <p class="weather-details__header">Вітер</p>
+                    <p class="weather-details__info">16 км/год</p>
+                </div>
+                <div class="details-container details-container__sun">
+                    <div class="">
+                        <img src="icons/weather_details/sun-up.png" alt="Sunrise" class="weather-details__img">
+                        <p class="weather-details__header">Схід сонця</p>
+                        <p class="weather-details__info">07:25</p>
+                    </div>
+                    <div class="">
+                        <img src="icons/weather_details/sun-down.png" alt="Sunset" class="weather-details__img">
+                        <p class="weather-details__header">Захід сонця</p>
+                        <p class="weather-details__info">16:59</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

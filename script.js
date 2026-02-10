@@ -80,8 +80,6 @@ const fetchData = async city => {
             weatherDetails[index].textContent = value
             index++
         }
-
-        console.log(data)
     } catch (error) {
         loadingIcon.style.display = 'none'
         prevText.style.display = 'inline'
@@ -137,10 +135,13 @@ const isCitySaved = city => {
 }
 
 const getSavedCities = () => {
+    listSavedCities.innerHTML = ''
     const cities = JSON.parse(localStorage.getItem(storageKey)) || []
 
     if (cities.length > 0) {
         document.querySelector('.cities-list').style.display = 'block'
+    } else {
+        document.querySelector('.cities-list').style.display = 'none'
     }
 
     for (const city of cities.reverse()) {
@@ -148,14 +149,9 @@ const getSavedCities = () => {
         cityContainer.className = 'saved-city'
         cityContainer.textContent = city.city
         listSavedCities.append(cityContainer)
-    }
-}
 
-const searchSavedCity = () => {
-    const savedCities = document.querySelectorAll('.saved-city')
-    for (const city of savedCities) {
-        city.addEventListener('click', () => {
-            fetchData(city.textContent)
+        cityContainer.addEventListener('click', () => {
+            fetchData(city.city)
         })
     }
 }
@@ -177,8 +173,8 @@ saveIcon.addEventListener("click", () => {
 
     saveCity(inputCity)
     isCitySaved(inputCity) ? saveIcon.src = 'icons/saved.png' : saveIcon.src = 'icons/unsaved.png'
+    getSavedCities()
 })
 
 fetchData(lastSavedCity())
 getSavedCities()
-searchSavedCity()
