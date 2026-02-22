@@ -23,7 +23,7 @@ const fetchData = async city => {
     weatherDetailsContainer.style.visibility = 'hidden'
 
     prevText.style.display = 'none'
-    loadingIcon.style.display = 'inline'
+    loadingIcon.style.display = 'block'
 
     try {
         const urlCity = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`
@@ -47,7 +47,7 @@ const fetchData = async city => {
         mainWeatherContainer.style.visibility = 'unset'
         weatherDetailsContainer.style.visibility = 'unset'
 
-        cityHeader.innerHTML = '<img src="icons/location.png" class="locationImg"> ' + data.name
+        cityHeader.innerHTML = '<img src="assets/icons/location.png" class="locationImg"> ' + data.name
         temp.textContent = Math.round(data.main.temp) + '°'
         tempFeels.textContent = 'Відчувається як ' + Math.round(data.main.feels_like) + '°'
 
@@ -56,12 +56,12 @@ const fetchData = async city => {
 
         saveIcon.style.display = 'inline'
         saveIcon.id = city
-        isCitySaved(city) ? saveIcon.src = 'icons/saved.png' : saveIcon.src = 'icons/unsaved.png'
+        isCitySaved(city) ? saveIcon.src = 'assets/icons/saved.png' : saveIcon.src = 'assets/icons/unsaved.png'
 
         if (data.weather[0].icon.at(-1) === 'n') {
-            weatherIcon.src = `icons/weather/${getIcon(data.weather[0].id)}_n.svg`
+            weatherIcon.src = `assets/weather/${getIcon(data.weather[0].id)}_n.svg`
         } else {
-            weatherIcon.src = `icons/weather/${getIcon(data.weather[0].id)}.svg`
+            weatherIcon.src = `assets/weather/${getIcon(data.weather[0].id)}.svg`
         }
 
         const sunriseTime = new Date(data.sys.sunrise * 1000)
