@@ -20,7 +20,7 @@
     <main>
         <section class="main-content">
             <div class="form-city">
-                <input type="text" placeholder="Введіть місто" id="inputCity" class="main-input" required>
+                <input type="text" placeholder="Введіть місто" id="inputCity" class="main-input" autocomplete="off" required>
                 <button type="submit" class="button-city" id="btnForm"><img src="assets/icons/search.png" width="25px"
                         alt="Шукати"></button>
             </div>
@@ -36,10 +36,10 @@
             <p class="prev-text" id="prevText">Потрібно ввести місто</p>
 
             <div class="main-weather">
-                <img src="assets/icons/unsaved.png" class="save-icon" id="" alt="Save">
+                <img src="assets/icons/unsaved.png" class="save-icon" alt="Save">
                 <h1 id="temp"></h1>
                 <p id="tempFeels"></p>
-                <p id="weather"></p>
+                <p id="weatherDescription"></p>
                 <p class="city-name" id="cityName"></p>
                 <img id="weatherIcon" class="weather-icon">
             </div>
@@ -77,7 +77,6 @@
     </main>
 
     <script type="module" src="js/main.js"></script>
-    <!-- <script src="script.js"></script> -->
 </body>
 
 </html>
